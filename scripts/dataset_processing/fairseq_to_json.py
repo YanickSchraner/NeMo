@@ -36,9 +36,14 @@ def main():
 
     for split in splits:
         # read path and duration
+        with open(required_data["audio_filepath_duration"].replace("*", split), "r", encoding="utf-8") as f:
+            base_path = f.readline().strip()
         path_duration_df = pd.read_csv(required_data["audio_filepath_duration"].replace("*", split), sep="\t",
                                        header=None, skiprows=1)
         path_duration_df = path_duration_df.rename(columns={0: "audio_filepath", 1: "duration"})
+
+        # add base path
+        path_duration_df["audio_filepath"] = path_duration_df["audio_filepath"].apply(lambda x: os.path.join(base_path, x))
 
         # Convert ms to s with 1 decimal place
         path_duration_df["duration"] = round(path_duration_df["duration"] / 1000, 1)
