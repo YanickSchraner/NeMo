@@ -54,7 +54,7 @@ def main():
         # write data to .json
         entries = wav_segments_text[output_names].to_dict(orient="records")
         manifest = os.path.join(args.manifest, f"{split}.json")
-        os.makedirs(manifest, exist_ok=True)
+        os.makedirs(args.manifest, exist_ok=True)
         with open(manifest, "w", encoding="utf-8") as fout:
             for m in entries:
                 fout.write(json.dumps(m, ensure_ascii=False) + "\n")
