@@ -4,8 +4,6 @@ import os
 
 import pandas as pd
 
-from nemo.utils import logging
-
 
 def main():
     parser = argparse.ArgumentParser(description="Convert fairseq data folder to manifest.json")
@@ -27,7 +25,7 @@ def main():
         "text": os.path.join(fairseq_folder, "*.wrd"),
     }
 
-    output_names = list(required_data.keys())
+    output_names = ['audio_filepath', 'duration', 'text']
 
     # check if required files exist
     for name, file in required_data.items():
@@ -41,6 +39,9 @@ def main():
         path_duration_df = pd.read_csv(required_data["audio_filepath_duration"].replace("*", split), sep="\t",
                                        header=None, skiprows=1)
         path_duration_df = path_duration_df.rename(columns={0: "audio_filepath", 1: "duration"})
+
+        # Convert ms to s with 1 decimal place
+        path_duration_df["duration"] = round(path_duration_df["duration"] / 1000, 1)
 
         # read text
         with open(required_data["text"].replace("*", split), "r", encoding="utf-8") as f:
