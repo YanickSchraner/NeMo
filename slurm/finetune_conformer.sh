@@ -5,7 +5,7 @@
 #SBATCH --ntasks=1
 #SBATCH --mem=50G
 #SBATCH --qos=gpu1day
-#SBATCH --gres=gpu:0
+#SBATCH --gres=gpu:1
 #SBATCH --partition=a100
 #SBATCH --output=scicore_out/finetune-conformer-%A_%a.out
 
