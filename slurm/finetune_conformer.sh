@@ -19,4 +19,6 @@ ml Python/3.10.4-GCCcore-11.3.0
 
 source venv/bin/activate
 
+HYDRA_FULL_ERROR=1
+
 python train/asr/speech_to_text_ctc_bpe.py
