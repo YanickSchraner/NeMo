@@ -20,7 +20,8 @@ def main():
     for split in splits:
         # read <split>.json
         with open(os.path.join(manifest_dir, split + '.json')) as f:
-            data = json.load(f)
+            lines = f.readlines()
+            data = [json.loads(line) for line in lines]
             # Calculate statistics
             durations = [d['duration'] for d in data]
             print(f"Split: {split}")
