@@ -19,6 +19,7 @@ ml Python/3.10.4-GCCcore-11.3.0
 
 source venv/bin/activate
 
-HYDRA_FULL_ERROR=1
+export HYDRA_FULL_ERROR=1
+export CUDA_VISIBLE_DEVICES=0,1,2,3
 
-python train/asr/speech_to_text_ctc_bpe.py
+srun python train/asr/speech_to_text_ctc_bpe.py
