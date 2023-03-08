@@ -1,10 +1,10 @@
 #!/bin/bash
 #SBATCH --job-name=calculate_ds_statistics
-#SBATCH --time=01:00:00
+#SBATCH --time=0:30:00
 #SBATCH --cpus-per-task=10
 #SBATCH --ntasks=1
 #SBATCH --mem=5G
-#SBATCH --qos=6hours
+#SBATCH --qos=30min
 #SBATCH --output=scicore_out/calculate_ds_statistics-%A_%a.out
 
 ml CMake/3.23.1-GCCcore-11.3.0
