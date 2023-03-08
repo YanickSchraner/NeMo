@@ -5,7 +5,7 @@
 #SBATCH --ntasks=1
 #SBATCH --mem=50G
 #SBATCH --qos=gpu1day
-#SBATCH --gres=gpu:4
+#SBATCH --gres=gpu:0
 #SBATCH --partition=a100
 #SBATCH --output=scicore_out/finetune-conformer-%A_%a.out
 
@@ -20,6 +20,5 @@ ml Python/3.10.4-GCCcore-11.3.0
 source venv/bin/activate
 
 export HYDRA_FULL_ERROR=1
-export CUDA_VISIBLE_DEVICES=0,1,2,3
 
 srun python train/asr/speech_to_text_ctc_bpe.py
