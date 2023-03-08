@@ -72,7 +72,7 @@ model:
   # recommend small vocab size of 128 or 256 when using 4x sub-sampling
   # you may find more detail on how to train a tokenizer at: /scripts/tokenizers/process_asr_text_tokenizer.py
   tokenizer:
-    dir: /scicore/home/graber0001/schran0000/NeMo/checkpoints/spm/spm_5000.model  # path to directory which contains either tokenizer.model (bpe) or vocab.txt (wpe)
+    dir: /scicore/home/graber0001/schran0000/NeMo/checkpoints/spm  # path to directory which contains either tokenizer.model (bpe) or vocab.txt (wpe)
     type: bpe  # Can be either bpe (SentencePiece tokenizer) or wpe (WordPiece tokenizer)
 
   preprocessor:
