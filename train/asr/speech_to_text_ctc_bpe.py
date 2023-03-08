@@ -65,6 +65,7 @@ https://docs.nvidia.com/deeplearning/nemo/user-guide/docs/en/main/asr/results.ht
 """
 
 import pytorch_lightning as pl
+import torch
 from omegaconf import OmegaConf
 
 from nemo.collections.asr.models.ctc_bpe_models import EncDecCTCModelBPE
@@ -77,6 +78,10 @@ from nemo.utils.exp_manager import exp_manager
 def main(cfg):
     logging.info(f'Hydra config: {OmegaConf.to_yaml(cfg)}')
 
+    # Print available GPUs
+    logging.info(f'Available GPUs: {torch.cuda.device_count()}')
+
+    # Create PyTorch Lightning trainer with specified parameters
     trainer = pl.Trainer(**cfg.trainer)
     exp_manager(trainer, cfg.get("exp_manager", None))
     asr_model = EncDecCTCModelBPE(cfg=cfg.model, trainer=trainer)
@@ -84,7 +89,7 @@ def main(cfg):
     # Initialize the weights of the model from another model, if provided via config
     asr_model.maybe_init_from_pretrained_checkpoint(cfg)
 
-
+    # Fit model to data
     trainer.fit(asr_model)
 
     if hasattr(cfg.model, 'test_ds') and cfg.model.test_ds.manifest_filepath is not None:
