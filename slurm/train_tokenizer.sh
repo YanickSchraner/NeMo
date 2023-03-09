@@ -3,7 +3,7 @@
 #SBATCH --time=06:00:00
 #SBATCH --cpus-per-task=20
 #SBATCH --ntasks=1
-#SBATCH --mem=20G
+#SBATCH --mem=128G
 #SBATCH --qos=6hours
 #SBATCH --output=scicore_out/train-tokenizer-%A_%a.out
 
