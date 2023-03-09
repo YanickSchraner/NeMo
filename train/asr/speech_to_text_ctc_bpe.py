@@ -99,8 +99,8 @@ def main(cfg):
     asr_model.cfg.optim.sched.warmup_steps = cfg.model.optim.sched.warmup_steps
     asr_model.cfg.optim.sched.warmup_ratio = cfg.model.optim.sched.warmup_ratio
     asr_model.cfg.optim.sched.min_lr = cfg.model.optim.sched.min_lr
-    asr_model.cfg.optim.shed.name = cfg.model.optim.sched.name
-    asr_model.cfg.optim.shed.d_model = cfg.model.optim.sched.d_model
+    asr_model.cfg.optim.sched.name = cfg.model.optim.sched.name
+    asr_model.cfg.optim.sched.d_model = cfg.model.optim.sched.d_model
     # Update vocab
     asr_model.change_vocabulary(new_vocabulary=cfg.model.tokenizer.vocab_file)
     # Fit model to data
