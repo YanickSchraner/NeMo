@@ -88,10 +88,10 @@ def main(cfg):
     asr_model = EncDecCTCModelBPE.from_pretrained(model_name="stt_de_conformer_ctc_large", trainer=trainer)
     asr_model.setup_training_data(train_data_config=cfg.model.train_ds)
     asr_model.setup_validation_data(val_data_config=cfg.model.validation_ds)
-    asr_model.cfg.model.sample_rate = cfg.model.sample_rate
-    asr_model.cfg.model.log_prediction = cfg.model.log_prediction
-    asr_model.cfg.model.ctc_reduction = cfg.model.ctc_reduction
-    asr_model.cfg.model.skip_nan_grad = cfg.model.skip_nan_grad
+    asr_model.cfg.sample_rate = cfg.model.sample_rate
+    asr_model.cfg.log_prediction = cfg.model.log_prediction
+    asr_model.cfg.ctc_reduction = cfg.model.ctc_reduction
+    asr_model.cfg.skip_nan_grad = cfg.model.skip_nan_grad
     asr_model.spec_augment = asr_model.from_config_dict(cfg.model.spec_augment)
     asr_model.cfg.optim.name = cfg.model.optim.name
     asr_model.cfg.optim.lr = cfg.model.optim.lr
