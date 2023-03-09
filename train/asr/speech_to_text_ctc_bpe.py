@@ -86,6 +86,7 @@ def main(cfg):
     exp_manager(trainer, cfg.get("exp_manager", None))
     # asr_model = EncDecCTCModelBPE(cfg=cfg.model, trainer=trainer)
     asr_model = EncDecCTCModelBPE.from_pretrained(model_name="stt_de_conformer_ctc_large", trainer=trainer)
+    asr_model.override_config(cfg.model)
     # Fit model to data
     trainer.fit(asr_model)
 
