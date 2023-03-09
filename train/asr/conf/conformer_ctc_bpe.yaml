@@ -28,12 +28,13 @@ name: "Conformer-CTC-BPE"
 
 model:
   sample_rate: 16000
-  log_prediction: false # enables logging sample predictions in the output during training
+  log_prediction: true # enables logging sample predictions in the output during training
   ctc_reduction: 'mean_batch'
   skip_nan_grad: false
 
   train_ds:
-    manifest_filepath: /scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/train.json
+#    manifest_filepath: /scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/train.json
+    manifest_filepath: /scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/valid.json
     sample_rate: ${model.sample_rate}
     batch_size: 16 # you may increase batch_size if your memory allows
     shuffle: true
@@ -43,6 +44,7 @@ model:
     trim_silence: false
     max_duration: 27.3 # it is set for SOTAv3 DS, you may need to update it for your dataset
     min_duration: 0.5
+    normalize_transcripts: false
     # tarred datasets
     is_tarred: false
     tarred_audio_filepaths: null
@@ -55,6 +57,7 @@ model:
     manifest_filepath: /scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/valid.json
     sample_rate: ${model.sample_rate}
     batch_size: 16 # you may increase batch_size if your memory allows
+    normalize_transcripts: false
     shuffle: false
     num_workers: 8
     pin_memory: true
@@ -64,6 +67,7 @@ model:
     manifest_filepath: /scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/test.json
     sample_rate: ${model.sample_rate}
     batch_size: 16 # you may increase batch_size if your memory allows
+    normalize_transcripts: false
     shuffle: false
     num_workers: 8
     pin_memory: true
@@ -72,7 +76,7 @@ model:
   # recommend small vocab size of 128 or 256 when using 4x sub-sampling
   # you may find more detail on how to train a tokenizer at: /scripts/tokenizers/process_asr_text_tokenizer.py
   tokenizer:
-    dir: /scicore/home/graber0001/schran0000/NeMo/checkpoints/spm  # path to directory which contains either tokenizer.model (bpe) or vocab.txt (wpe)
+    dir:  checkpoints/spm/tokenizer_spe_unigram_v5000  # path to directory which contains either tokenizer.model (bpe) or vocab.txt (wpe)
     type: bpe  # Can be either bpe (SentencePiece tokenizer) or wpe (WordPiece tokenizer)
 
   preprocessor:
@@ -159,7 +163,7 @@ model:
 
   optim:
     name: adamw
-    lr: 2.0
+    lr: 0.01
     # optimizer arguments
     betas: [0.9, 0.98]
     # less necessity for weight_decay as we already have large augmentations with SpecAug

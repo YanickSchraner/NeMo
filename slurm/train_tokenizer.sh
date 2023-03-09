@@ -26,4 +26,5 @@ python scripts/tokenizers/process_asr_text_tokenizer.py \
         --no_lower_case \
         --spe_type="unigram" \
         --spe_character_coverage=1.0 \
+        --spe_sample_size=10000000 \
         --log
