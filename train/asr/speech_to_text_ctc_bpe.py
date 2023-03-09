@@ -91,7 +91,6 @@ def main(cfg):
     asr_model.cfg.sample_rate = cfg.model.sample_rate
     asr_model.cfg.log_prediction = cfg.model.log_prediction
     asr_model.cfg.ctc_reduction = cfg.model.ctc_reduction
-    asr_model.cfg.skip_nan_grad = cfg.model.skip_nan_grad
     asr_model.spec_augment = asr_model.from_config_dict(cfg.model.spec_augment)
     asr_model.cfg.optim.name = cfg.model.optim.name
     asr_model.cfg.optim.lr = cfg.model.optim.lr
