@@ -102,7 +102,7 @@ def main(cfg):
     asr_model.cfg.optim.sched.name = cfg.model.optim.sched.name
     asr_model.cfg.optim.sched.d_model = cfg.model.optim.sched.d_model
     # Update vocab
-    asr_model.change_vocabulary(new_vocabulary=cfg.model.tokenizer.vocab_file)
+    asr_model.change_vocabulary(new_tokenizer_dir=cfg.model.tokenizer.dir, new_tokenizer_type=cfg.model.tokenizer.type)
     # Fit model to data
     trainer.fit(asr_model)
 
