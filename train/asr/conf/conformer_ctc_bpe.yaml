@@ -55,7 +55,7 @@ model:
 
   validation_ds:
     manifest_filepath: /scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/valid.json
-    sample_rate: ${model.sample_rate}
+    sample_rate: 16000
     batch_size: 16 # you may increase batch_size if your memory allows
     normalize_transcripts: false
     shuffle: false
@@ -65,7 +65,7 @@ model:
 
   test_ds:
     manifest_filepath: /scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/test.json
-    sample_rate: ${model.sample_rate}
+    sample_rate: 16000
     batch_size: 16 # you may increase batch_size if your memory allows
     normalize_transcripts: false
     shuffle: false
@@ -81,7 +81,7 @@ model:
 
   preprocessor:
     _target_: nemo.collections.asr.modules.AudioToMelSpectrogramPreprocessor
-    sample_rate: ${model.sample_rate}
+    sample_rate: 16000
     normalize: "per_feature"
     window_size: 0.025
     window_stride: 0.01
@@ -174,7 +174,7 @@ model:
     # scheduler setup
     sched:
       name: NoamAnnealing
-      d_model: ${model.encoder.d_model}
+      d_model: 512
       # scheduler config override
       warmup_steps: 10000
       warmup_ratio: null
