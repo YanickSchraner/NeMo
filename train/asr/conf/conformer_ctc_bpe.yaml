@@ -35,7 +35,7 @@ model:
   train_ds:
     #    manifest_filepath: /scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/train.json
     manifest_filepath: /scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/valid.json
-    sample_rate: ${model.sample_rate}
+    sample_rate: 16000
     batch_size: 16 # you may increase batch_size if your memory allows
     shuffle: true
     num_workers: 8
