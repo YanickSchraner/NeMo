@@ -85,7 +85,12 @@ def main(cfg):
     trainer = pl.Trainer(**cfg.trainer)
     exp_manager(trainer, cfg.get("exp_manager", None))
     # asr_model = EncDecCTCModelBPE(cfg=cfg.model, trainer=trainer)
-    asr_model = EncDecCTCModelBPE.from_pretrained(model_name="stt_de_conformer_ctc_large", trainer=trainer, override_config_path="/scicore/home/graber0001/schran0000/NeMo/train/asr/conf/conformer_ctc_bpe.yaml")
+    asr_model = EncDecCTCModelBPE.from_pretrained(model_name="stt_de_conformer_ctc_large", trainer=trainer)
+    asr_model.setup_training_data(train_data_config=cfg.model.train_ds)
+    asr_model.setup_validation_data(val_data_config=cfg.model.validation_ds)
+
+    # Update vocab
+    asr_model.change_vocabulary(new_vocabulary=cfg.model.tokenizer.vocab_file)
     # Fit model to data
     trainer.fit(asr_model)
 
