@@ -84,11 +84,8 @@ def main(cfg):
     # Create PyTorch Lightning trainer with specified parameters
     trainer = pl.Trainer(**cfg.trainer)
     exp_manager(trainer, cfg.get("exp_manager", None))
-    asr_model = EncDecCTCModelBPE(cfg=cfg.model, trainer=trainer)
-
-    # Initialize the weights of the model from another model, if provided via config
-    asr_model.maybe_init_from_pretrained_checkpoint(cfg)
-
+    # asr_model = EncDecCTCModelBPE(cfg=cfg.model, trainer=trainer)
+    asr_model = EncDecCTCModelBPE.from_pretrained(model_name="stt_de_conformer_ctc_large", trainer=trainer)
     # Fit model to data
     trainer.fit(asr_model)
 

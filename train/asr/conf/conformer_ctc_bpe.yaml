@@ -33,7 +33,7 @@ model:
   skip_nan_grad: false
 
   train_ds:
-#    manifest_filepath: /scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/train.json
+    #    manifest_filepath: /scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/train.json
     manifest_filepath: /scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/valid.json
     sample_rate: ${model.sample_rate}
     batch_size: 16 # you may increase batch_size if your memory allows
@@ -76,7 +76,7 @@ model:
   # recommend small vocab size of 128 or 256 when using 4x sub-sampling
   # you may find more detail on how to train a tokenizer at: /scripts/tokenizers/process_asr_text_tokenizer.py
   tokenizer:
-    dir:  checkpoints/spm/tokenizer_spe_unigram_v5000  # path to directory which contains either tokenizer.model (bpe) or vocab.txt (wpe)
+    dir: checkpoints/spm/tokenizer_spe_unigram_v5000  # path to directory which contains either tokenizer.model (bpe) or vocab.txt (wpe)
     type: bpe  # Can be either bpe (SentencePiece tokenizer) or wpe (WordPiece tokenizer)
 
   preprocessor:
@@ -122,7 +122,7 @@ model:
     self_attention_model: rel_pos # rel_pos or abs_pos
     n_heads: 8 # may need to be lower for smaller d_models
     # [left, right] specifies the number of steps to be seen from left and right of each step in self-attention
-    att_context_size: [-1, -1] # -1 means unlimited context
+    att_context_size: [ -1, -1 ] # -1 means unlimited context
     att_context_style: regular # regular or chunked_limited
     xscaling: true # scales up the input embeddings by sqrt(d_model)
     untie_biases: true # unties the biases of the TransformerXL layers
@@ -142,15 +142,15 @@ model:
     dropout_att: 0.1 # The dropout for multi-headed attention modules
 
     # set to non-zero to enable stochastic depth
-#    stochastic_depth_drop_prob: 0.0
-#    stochastic_depth_mode: linear  # linear or uniform
-#    stochastic_depth_start_layer: 1
+  #    stochastic_depth_drop_prob: 0.0
+  #    stochastic_depth_mode: linear  # linear or uniform
+  #    stochastic_depth_start_layer: 1
 
   decoder:
     _target_: nemo.collections.asr.modules.ConvASRDecoder
     feat_in: null
     num_classes: -1
-    vocabulary: []
+    vocabulary: [ ]
 
   # config for InterCTC loss: https://arxiv.org/abs/2102.03216
   # specify loss weights and which layers to use for InterCTC
@@ -158,14 +158,14 @@ model:
   # and apply_at_layers: [8] (assuming 18 layers). Note that final
   # layer loss coefficient is automatically adjusted (to 0.7 in above example)
   interctc:
-    loss_weights: []
-    apply_at_layers: []
+    loss_weights: [ ]
+    apply_at_layers: [ ]
 
   optim:
     name: adamw
     lr: 0.01
     # optimizer arguments
-    betas: [0.9, 0.98]
+    betas: [ 0.9, 0.98 ]
     # less necessity for weight_decay as we already have large augmentations with SpecAug
     # you may need weight_decay for large models, stable AMP training, small datasets, or when lower augmentations are used
     # weight decay of 0.0 with lr of 2.0 also works fine
@@ -222,6 +222,3 @@ exp_manager:
   wandb_logger_kwargs:
     name: conformer_ctc_bpe_finetuning
     project: nemo
-
-
-init_from_nemo_model: /scicore/home/graber0001/schran0000/NeMo/checkpoints/asr/stt_de_conformer_ctc_large.nemo
