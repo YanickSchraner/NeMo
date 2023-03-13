@@ -17,11 +17,12 @@ ml Python/3.10.4-GCCcore-11.3.0
 
 source venv/bin/activate
 
+ # num shards:  1200h total, 10h per shard, dividable by 8 workers = 120 shards
 
 python scripts/speech_recognition/convert_to_tarred_audio_dataset.py \
   --manifest_path=/scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/train.json \
   --target_dir=/scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/train_shards \
-  --num_shards=120 # 1200h total, 10h per shard, dividable by 8 workers = 120 shards
+  --num_shards=120 \
   --max_duration=20 \
   --min_duration=2 \
   --sort_in_shards \
