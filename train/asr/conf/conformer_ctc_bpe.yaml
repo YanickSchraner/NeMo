@@ -33,21 +33,27 @@ model:
   skip_nan_grad: false
 
   train_ds:
-    #    manifest_filepath: /scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/train.json
-    manifest_filepath: /scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/valid.json
+#    manifest_filepath: /scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/train.json
+    manifest_filepath: [[/scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/train_shards/bucket1/tarred_audio_manifest.json],
+                        [/scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/train_shards/bucket2/tarred_audio_manifest.json],
+                        [/scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/train_shards/bucket3/tarred_audio_manifest.json],
+                        [/scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/train_shards/bucket4/tarred_audio_manifest.json],]
     sample_rate: 16000
-    batch_size: 16 # you may increase batch_size if your memory allows
-    shuffle: true
+    batch_size: 32 # you may increase batch_size if your memory allows
+    shuffle: false
     num_workers: 8
     pin_memory: true
     use_start_end_token: false
     trim_silence: false
-    max_duration: 27.3 # it is set for SOTAv3 DS, you may need to update it for your dataset
+    max_duration: 20 # it is set for SOTAv3 DS, you may need to update it for your dataset
     min_duration: 0.5
     normalize_transcripts: false
     # tarred datasets
-    is_tarred: false
-    tarred_audio_filepaths: null
+    is_tarred: true
+    tarred_audio_filepaths: [[/scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/train_shards/bucket1/audio__OP_0..119_CL_.tar],
+                             [/scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/train_shards/bucket2/audio__OP_0..119_CL_.tar],
+                             [/scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/train_shards/bucket3/audio__OP_0..119_CL_.tar],
+                             [/scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/train_shards/bucket4/audio__OP_0..119_CL_.tar]]
     shuffle_n: 2048
     # bucketing params
     bucketing_strategy: "synced_randomized"
@@ -181,7 +187,7 @@ model:
       min_lr: 1e-6
 
 trainer:
-  devices: -1 # number of GPUs, -1 would use all available GPUs
+  devices: 4 # number of GPUs, -1 would use all available GPUs
   num_nodes: 1
   max_epochs: -1
   max_steps: 120000 # computed at runtime if not set

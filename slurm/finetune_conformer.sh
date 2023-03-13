@@ -2,6 +2,7 @@
 #SBATCH --job-name=finetune_conformer
 #SBATCH --time=1-00:00:00
 #SBATCH --cpus-per-task=10
+#SBATCH --ntasks=4
 #SBATCH --mem=50G
 #SBATCH --qos=gpu1day
 #SBATCH --gres=gpu:4
@@ -20,5 +21,7 @@ ml Python/3.10.4-GCCcore-11.3.0
 source venv/bin/activate
 
 export HYDRA_FULL_ERROR=1
+export NCCL_DEBUG=INFO
+export PYTHONFAULTHANDLER=1
 
 srun python train/asr/speech_to_text_ctc_bpe.py
