@@ -2,7 +2,7 @@
 #SBATCH --job-name=finetune_conformer
 #SBATCH --time=1-00:00:00
 #SBATCH --cpus-per-task=10
-#SBATCH --ntasks=4
+#SBATCH --tasks-per-node=4
 #SBATCH --mem=50G
 #SBATCH --qos=gpu1day
 #SBATCH --gres=gpu:4
