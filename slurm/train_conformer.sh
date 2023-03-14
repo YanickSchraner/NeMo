@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=finetune_conformer
+#SBATCH --job-name=train_conformer
 #SBATCH --time=7-00:00:00
 #SBATCH --cpus-per-task=20
 #SBATCH --tasks-per-node=4
@@ -7,7 +7,7 @@
 #SBATCH --qos=gpu1week
 #SBATCH --gres=gpu:4
 #SBATCH --partition=a100
-#SBATCH --output=scicore_out/finetune-conformer-%A_%a.out
+#SBATCH --output=scicore_out/train-conformer-%A_%a.out
 
 ml CMake/3.23.1-GCCcore-11.3.0
 ml libsndfile/1.1.0-GCCcore-11.3.0
@@ -23,4 +23,4 @@ export HYDRA_FULL_ERROR=1
 export NCCL_DEBUG=INFO
 export PYTHONFAULTHANDLER=1
 
-srun python train/asr/speech_to_text_ctc_bpe.py
+srun python train/asr/speech_to_text_ctc_bpe_from_scratch.py

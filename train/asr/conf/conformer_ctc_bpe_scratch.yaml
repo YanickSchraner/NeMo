@@ -169,9 +169,9 @@ model:
 
   optim:
     name: adamw
-    lr: 0.01
+    lr: 2.0
     # optimizer arguments
-    betas: [ 0.9, 0.98 ]
+    betas: [0.9, 0.98]
     # less necessity for weight_decay as we already have large augmentations with SpecAug
     # you may need weight_decay for large models, stable AMP training, small datasets, or when lower augmentations are used
     # weight decay of 0.0 with lr of 2.0 also works fine
@@ -180,7 +180,7 @@ model:
     # scheduler setup
     sched:
       name: NoamAnnealing
-      d_model: 512
+      d_model: ${model.encoder.d_model}
       # scheduler config override
       warmup_steps: 10000
       warmup_ratio: null
@@ -208,7 +208,7 @@ trainer:
   benchmark: false # needs to be false for models with variable-length speech input as it slows down training
 
 exp_manager:
-  exp_dir: /scicore/home/graber0001/schran0000/NeMo/experiments/stt_de_conformer_ctc_large_finetuning
+  exp_dir: /scicore/home/graber0001/schran0000/NeMo/experiments/stt_de_conformer_ctc_large_scratch
   name: ${name}
   create_tensorboard_logger: true
   create_checkpoint_callback: true
