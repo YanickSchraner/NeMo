@@ -1,59 +1,37 @@
-# It contains the default values for training a Conformer-CTC ASR model, large size (~120M) with CTC loss and sub-word encoding.
+# It contains the default values for training a Conformer-CTC ASR model, large size (~120M) with CTC loss and char-based vocabulary.
+# Char-based encoding may give lower accuracy than sub-word encoding (conformer_ctc_bpe.yaml).
 
-# Architecture and training config:
-# Default learning parameters in this config are set for effective batch size of 2K. To train it with smaller effective
-# batch sizes, you may need to re-tune the learning parameters or use higher accumulate_grad_batches.
-# Here are the recommended configs for different variants of Conformer-CTC, other parameters are the same as in this config file.
-# One extra layer (compared to original paper) is added to the medium and large variants to compensate for replacing the LSTM decoder with a linear one.
-#
-#  +-------------+---------+---------+----------+------------+-----+
-#  | Model       | d_model | n_heads | n_layers | time_masks | lr  |
-#  +=============+=========+========+===========+============+=====+
-#  | Small  (13M)|   176   |    4   |    16     |     5      | 5.0 |
-#  +-------------+---------+--------+-----------+------------+-----+
-#  | Medium (30M)|   256   |    4   |    18     |     5      | 5.0 |
-#  +-------------+---------+--------+-----------+------------+-----+
-#  | Large (121M)|   512   |    8   |    18     |     10     | 2.0 |
-#  +---------------------------------------------------------------+
-#
-# If you do not want to train with AMP, you may use weight decay of 0.0 or reduce the number of time maskings to 2
-# with time_width=100. It may help when you want to train for fewer epochs and need faster convergence.
-# With weight_decay=0.0, learning rate may need to get reduced to 2.0.
+# You may find more detail on Conformer-CTC at `examples/asr/conf/conformer/conformer_ctc_bpe.yaml`
 
-# You may find more info about Conformer-CTC here: https://docs.nvidia.com/deeplearning/nemo/user-guide/docs/en/stable/asr/models.html#conformer-ctc
-# Pre-trained models of Conformer-CTC can be found here: https://docs.nvidia.com/deeplearning/nemo/user-guide/docs/en/stable/asr/results.html
-# The checkpoint of the large model trained on LibriSpeech with this recipe can be found here: https://ngc.nvidia.com/catalog/models/nvidia:nemo:stt_en_conformer_ctc_large_ls
-
-name: "Conformer-CTC-BPE"
+name: "Conformer-CTC-Char"
 
 model:
   sample_rate: 16000
+  labels:  ['6', '.', 'F', 'Y', 'h', 'W', 'K', 'z', 'N', 'M', 'A', 'ö', 'c', '7', 'D', '1', 'n', 'S', 'Ä', '!', 'B', 'J', 'p', '-', '3', 'i', 'v', 'H', 'y', 'I', '0', '8', 'G', 'ä', ' ', 't', 'R', 's', 'e', '2', 'j', 'V', 'Ü', '4', 'ü', 'Ö', 'Z', 'a', 'w', 'u', 'C', 'Q', ':', '5', ',', 'X', 'm', 'd', 'q', 'g', 'k', 'r', 'b', 'l', 'L', 'O', 'U', '9', 'o', 'E', ';', 'P', '?', 'f', 'T', 'x']
   log_prediction: false # enables logging sample predictions in the output during training
   ctc_reduction: 'mean_batch'
   skip_nan_grad: false
 
   train_ds:
-#    manifest_filepath: /scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/train.json
-    manifest_filepath: [[/scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/train_shards/bucket1/tarred_audio_manifest.json],
-                        [/scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/train_shards/bucket2/tarred_audio_manifest.json],
-                        [/scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/train_shards/bucket3/tarred_audio_manifest.json],
-                        [/scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/train_shards/bucket4/tarred_audio_manifest.json],]
-    sample_rate: 16000
+    manifest_filepath: [ [ /scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/train_shards/bucket1/tarred_audio_manifest.json ],
+                         [ /scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/train_shards/bucket2/tarred_audio_manifest.json ],
+                         [ /scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/train_shards/bucket3/tarred_audio_manifest.json ],
+                         [ /scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/train_shards/bucket4/tarred_audio_manifest.json ], ]
+    labels: ${model.labels}
+    sample_rate: ${model.sample_rate}
     batch_size: 32 # you may increase batch_size if your memory allows
     shuffle: false
     num_workers: 8
     pin_memory: true
-    use_start_end_token: false
     trim_silence: false
-    max_duration: 20 # it is set for SOTAv3 DS, you may need to update it for your dataset
+    max_duration: 20
     min_duration: 0.5
-    normalize_transcripts: false
     # tarred datasets
     is_tarred: true
-    tarred_audio_filepaths: [[/scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/train_shards/bucket1/audio__OP_0..119_CL_.tar],
-                             [/scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/train_shards/bucket2/audio__OP_0..119_CL_.tar],
-                             [/scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/train_shards/bucket3/audio__OP_0..119_CL_.tar],
-                             [/scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/train_shards/bucket4/audio__OP_0..119_CL_.tar]]
+    tarred_audio_filepaths: [ [ /scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/train_shards/bucket1/audio__OP_0..119_CL_.tar ],
+                              [ /scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/train_shards/bucket2/audio__OP_0..119_CL_.tar ],
+                              [ /scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/train_shards/bucket3/audio__OP_0..119_CL_.tar ],
+                              [ /scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/train_shards/bucket4/audio__OP_0..119_CL_.tar ] ]
     shuffle_n: 2048
     # bucketing params
     bucketing_strategy: "synced_randomized"
@@ -61,33 +39,25 @@ model:
 
   validation_ds:
     manifest_filepath: /scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/valid.json
-    sample_rate: 16000
+    labels: ${model.labels}
+    sample_rate: ${model.sample_rate}
     batch_size: 16 # you may increase batch_size if your memory allows
-    normalize_transcripts: false
     shuffle: false
     num_workers: 8
     pin_memory: true
-    use_start_end_token: false
 
   test_ds:
     manifest_filepath: /scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/test.json
-    sample_rate: 16000
+    labels: ${model.labels}
+    sample_rate: ${model.sample_rate}
     batch_size: 16 # you may increase batch_size if your memory allows
-    normalize_transcripts: false
     shuffle: false
     num_workers: 8
     pin_memory: true
-    use_start_end_token: false
-
-  # recommend small vocab size of 128 or 256 when using 4x sub-sampling
-  # you may find more detail on how to train a tokenizer at: /scripts/tokenizers/process_asr_text_tokenizer.py
-  tokenizer:
-    dir: checkpoints/spm/tokenizer_spe_unigram_v5000  # path to directory which contains either tokenizer.model (bpe) or vocab.txt (wpe)
-    type: bpe  # Can be either bpe (SentencePiece tokenizer) or wpe (WordPiece tokenizer)
 
   preprocessor:
     _target_: nemo.collections.asr.modules.AudioToMelSpectrogramPreprocessor
-    sample_rate: 16000
+    sample_rate: ${model.sample_rate}
     normalize: "per_feature"
     window_size: 0.025
     window_stride: 0.01
@@ -112,13 +82,13 @@ model:
     _target_: nemo.collections.asr.modules.ConformerEncoder
     feat_in: ${model.preprocessor.features}
     feat_out: -1 # you may set it if you need different output size other than the default d_model
-    n_layers: 18
-    d_model: 512
+    n_layers: 16
+    d_model: 256
 
     # Sub-sampling params
     subsampling: striding # vggnet, striding, stacking or stacking_norm, dw_striding
     subsampling_factor: 4 # must be power of 2 for striding and vggnet
-    subsampling_conv_channels: -1 # -1 sets it to d_model
+    subsampling_conv_channels: -1 # set to -1 to make it equal to the d_model
     causal_downsampling: false
 
     # Feed forward module's params
@@ -128,7 +98,7 @@ model:
     self_attention_model: rel_pos # rel_pos or abs_pos
     n_heads: 8 # may need to be lower for smaller d_models
     # [left, right] specifies the number of steps to be seen from left and right of each step in self-attention
-    att_context_size: [ -1, -1 ] # -1 means unlimited context
+    att_context_size: [-1, -1] # -1 means unlimited context
     att_context_style: regular # regular or chunked_limited
     xscaling: true # scales up the input embeddings by sqrt(d_model)
     untie_biases: true # unties the biases of the TransformerXL layers
@@ -148,15 +118,15 @@ model:
     dropout_att: 0.1 # The dropout for multi-headed attention modules
 
     # set to non-zero to enable stochastic depth
-  #    stochastic_depth_drop_prob: 0.0
-  #    stochastic_depth_mode: linear  # linear or uniform
-  #    stochastic_depth_start_layer: 1
+    stochastic_depth_drop_prob: 0.0
+    stochastic_depth_mode: linear  # linear or uniform
+    stochastic_depth_start_layer: 1
 
   decoder:
     _target_: nemo.collections.asr.modules.ConvASRDecoder
     feat_in: null
     num_classes: -1
-    vocabulary: [ ]
+    vocabulary: ${model.labels}
 
   # config for InterCTC loss: https://arxiv.org/abs/2102.03216
   # specify loss weights and which layers to use for InterCTC
@@ -164,8 +134,8 @@ model:
   # and apply_at_layers: [8] (assuming 18 layers). Note that final
   # layer loss coefficient is automatically adjusted (to 0.7 in above example)
   interctc:
-    loss_weights: [ ]
-    apply_at_layers: [ ]
+    loss_weights: []
+    apply_at_layers: []
 
   optim:
     name: adamw
@@ -187,14 +157,14 @@ model:
       min_lr: 1e-6
 
 trainer:
-  devices: 4 # number of GPUs, -1 would use all available GPUs
+  devices: -1 # number of GPUs, -1 would use all available GPUs
   num_nodes: 1
   max_epochs: -1
   max_steps: 120000 # computed at runtime if not set
   val_check_interval: 1.0 # Set to 0.25 to check 4 times per epoch, or an int for number of iterations
-  accelerator: gpu
+  accelerator: auto
   strategy: ddp
-  accumulate_grad_batches: 10
+  accumulate_grad_batches: 1
   gradient_clip_val: 0.0
   precision: 16 # Should be set to 16 for O1 and O2 to enable the AMP.
   log_every_n_steps: 100  # Interval of logging.
@@ -203,12 +173,13 @@ trainer:
   num_sanity_val_steps: 0 # number of steps to perform validation steps for sanity check the validation process before starting the training, setting to 0 disables it
   check_val_every_n_epoch: 1 # number of evaluations on validation every n epochs
   sync_batchnorm: true
-  enable_checkpointing: false  # Provided by exp_manager
+  enable_checkpointing: False  # Provided by exp_manager
   logger: false  # Provided by exp_manager
   benchmark: false # needs to be false for models with variable-length speech input as it slows down training
 
+
 exp_manager:
-  exp_dir: /scicore/home/graber0001/schran0000/NeMo/experiments/stt_de_conformer_ctc_large_scratch
+  exp_dir: /scicore/home/graber0001/schran0000/NeMo/experiments/stt_de_conformer_ctc_char
   name: ${name}
   create_tensorboard_logger: true
   create_checkpoint_callback: true
@@ -226,5 +197,5 @@ exp_manager:
   # You may use this section to create a W&B logger
   create_wandb_logger: true
   wandb_logger_kwargs:
-    name: conformer_ctc_bpe
+    name: conformer_ctc_char
     project: nemo
