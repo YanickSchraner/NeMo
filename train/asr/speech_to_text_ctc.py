@@ -69,6 +69,7 @@ https://docs.nvidia.com/deeplearning/nemo/user-guide/docs/en/main/asr/results.ht
 """
 
 import pytorch_lightning as pl
+import torch
 from omegaconf import OmegaConf
 
 from nemo.collections.asr.models import EncDecCTCModel
@@ -87,6 +88,8 @@ def main(cfg):
 
     # Initialize the weights of the model from another model, if provided via config
     asr_model.maybe_init_from_pretrained_checkpoint(cfg)
+
+    torch.set_float32_matmul_precision('medium')
 
     trainer.fit(asr_model)
 

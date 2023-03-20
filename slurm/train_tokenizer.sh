@@ -12,7 +12,7 @@ ml libsndfile/1.1.0-GCCcore-11.3.0
 ml FLAC/1.3.4-GCCcore-11.3.0
 ml SoX/14.4.2-GCCcore-11.3.0
 ml FFmpeg/.5.0.1-GCCcore-11.3.0
-ml cuDNN/8.1.0.77-CUDA-11.2.1
+ml cuDNN/8.2.1.32-CUDA-11.3.1
 ml Python/3.10.4-GCCcore-11.3.0
 
 source venv/bin/activate
