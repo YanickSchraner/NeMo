@@ -90,7 +90,6 @@ def main(cfg):
 
 
     torch.set_float32_matmul_precision('medium')
-    asr_model = torch.compile(asr_model)
     trainer.fit(asr_model)
 
     if hasattr(cfg.model, 'test_ds') and cfg.model.test_ds.manifest_filepath is not None:
