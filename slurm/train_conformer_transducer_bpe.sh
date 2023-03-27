@@ -1,7 +1,7 @@
 #!/bin/bash
 #SBATCH --job-name=train_conformer_transducer_bpe
 #SBATCH --time=7-00:00:00
-#SBATCH --cpus-per-task=20
+#SBATCH --cpus-per-task=10
 #SBATCH --tasks-per-node=4
 #SBATCH --mem=50G
 #SBATCH --qos=gpu1week

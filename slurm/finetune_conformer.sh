@@ -1,11 +1,11 @@
 #!/bin/bash
 #SBATCH --job-name=finetune_conformer
 #SBATCH --time=7-00:00:00
-#SBATCH --cpus-per-task=20
+#SBATCH --cpus-per-task=10
 #SBATCH --tasks-per-node=4
 #SBATCH --mem=50G
 #SBATCH --qos=gpu1week
-#SBATCH --gres=gpu:4
+#SBATCH --gres=gpu:2
 #SBATCH --partition=a100
 #SBATCH --output=scicore_out/finetune-conformer-%A_%a.out
 
