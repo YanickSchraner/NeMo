@@ -89,8 +89,8 @@ def main(cfg):
     asr_model = EncDecCTCModelBPE.restore_from('/scicore/home/graber0001/schran0000/NeMo/experiments/stt_de_conformer_ctc_large_finetuning/Conformer-CTC-BPE/2023-03-29_15-29-01/checkpoints/Conformer-CTC-BPE.nemo', trainer=trainer)
     # Update vocab
     # asr_model.change_vocabulary(new_tokenizer_dir=cfg.model.tokenizer.dir, new_tokenizer_type=cfg.model.tokenizer.type)
-    # asr_model.setup_training_data(train_data_config=cfg.model.train_ds)
-    # asr_model.setup_validation_data(val_data_config=cfg.model.validation_ds)
+    asr_model.setup_training_data(train_data_config=cfg.model.train_ds)
+    asr_model.setup_validation_data(val_data_config=cfg.model.validation_ds)
     # asr_model.cfg.sample_rate = cfg.model.sample_rate
     # asr_model.cfg.log_prediction = cfg.model.log_prediction
     # asr_model.cfg.ctc_reduction = cfg.model.ctc_reduction
@@ -111,6 +111,7 @@ def main(cfg):
 
     if hasattr(cfg.model, 'test_ds') and cfg.model.test_ds.manifest_filepath is not None:
         if asr_model.prepare_test(trainer):
+            asr_model.setup_test_data(test_data_config=cfg.model.test_ds)
             trainer.test(asr_model)
 
 
