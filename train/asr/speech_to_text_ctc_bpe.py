@@ -87,23 +87,25 @@ def main(cfg):
     # asr_model = EncDecCTCModelBPE(cfg=cfg.model, trainer=trainer)
     # asr_model = EncDecCTCModelBPE.from_pretrained(model_name="stt_de_conformer_ctc_large", trainer=trainer)
     asr_model = EncDecCTCModelBPE.restore_from('/scicore/home/graber0001/schran0000/NeMo/experiments/stt_de_conformer_ctc_large_finetuning/Conformer-CTC-BPE/2023-03-29_15-29-01/checkpoints/Conformer-CTC-BPE.nemo', trainer=trainer)
-    asr_model.setup_training_data(train_data_config=cfg.model.train_ds)
-    asr_model.setup_validation_data(val_data_config=cfg.model.validation_ds)
-    asr_model.cfg.sample_rate = cfg.model.sample_rate
-    asr_model.cfg.log_prediction = cfg.model.log_prediction
-    asr_model.cfg.ctc_reduction = cfg.model.ctc_reduction
-    asr_model.spec_augment = asr_model.from_config_dict(cfg.model.spec_augment)
-    asr_model.cfg.optim.name = cfg.model.optim.name
-    asr_model.cfg.optim.lr = cfg.model.optim.lr
-    asr_model.cfg.optim.betas = cfg.model.optim.betas
-    asr_model.cfg.optim.weight_decay = cfg.model.optim.weight_decay
-    asr_model.cfg.optim.sched.warmup_steps = cfg.model.optim.sched.warmup_steps
-    asr_model.cfg.optim.sched.warmup_ratio = cfg.model.optim.sched.warmup_ratio
-    asr_model.cfg.optim.sched.min_lr = cfg.model.optim.sched.min_lr
-    asr_model.cfg.optim.sched.name = cfg.model.optim.sched.name
-    asr_model.cfg.optim.sched.d_model = cfg.model.optim.sched.d_model
     # Update vocab
-    asr_model.change_vocabulary(new_tokenizer_dir=cfg.model.tokenizer.dir, new_tokenizer_type=cfg.model.tokenizer.type)
+    # asr_model.change_vocabulary(new_tokenizer_dir=cfg.model.tokenizer.dir, new_tokenizer_type=cfg.model.tokenizer.type)
+    # asr_model.setup_training_data(train_data_config=cfg.model.train_ds)
+    # asr_model.setup_validation_data(val_data_config=cfg.model.validation_ds)
+    # asr_model.cfg.sample_rate = cfg.model.sample_rate
+    # asr_model.cfg.log_prediction = cfg.model.log_prediction
+    # asr_model.cfg.ctc_reduction = cfg.model.ctc_reduction
+    # asr_model.spec_augment = asr_model.from_config_dict(cfg.model.spec_augment)
+    # asr_model.cfg.optim.name = cfg.model.optim.name
+    # asr_model.cfg.optim.lr = cfg.model.optim.lr
+    # asr_model.cfg.optim.betas = cfg.model.optim.betas
+    # asr_model.cfg.optim.weight_decay = cfg.model.optim.weight_decay
+    # asr_model.cfg.optim.sched.warmup_steps = cfg.model.optim.sched.warmup_steps
+    # asr_model.cfg.optim.sched.warmup_ratio = cfg.model.optim.sched.warmup_ratio
+    # asr_model.cfg.optim.sched.min_lr = cfg.model.optim.sched.min_lr
+    # asr_model.cfg.optim.sched.name = cfg.model.optim.sched.name
+    # asr_model.cfg.optim.sched.d_model = cfg.model.optim.sched.d_model
+    # asr_model.maybe_init_from_pretrained_checkpoint()
+
     # Fit model to data
     trainer.fit(asr_model)
 
