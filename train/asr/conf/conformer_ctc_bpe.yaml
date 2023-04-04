@@ -228,3 +228,5 @@ exp_manager:
   wandb_logger_kwargs:
     name: conformer_ctc_bpe_finetuning
     project: nemo
+
+init_from_nemo_model: /scicore/home/graber0001/schran0000/NeMo/experiments/stt_de_conformer_ctc_large_finetuning/Conformer-CTC-BPE/2023-03-29_15-29-01/checkpoints/Conformer-CTC-BPE.nemo
