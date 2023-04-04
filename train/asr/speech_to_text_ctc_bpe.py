@@ -104,6 +104,10 @@ def main(cfg):
     # asr_model.cfg.optim.sched.min_lr = cfg.model.optim.sched.min_lr
     # asr_model.cfg.optim.sched.name = cfg.model.optim.sched.name
     # asr_model.cfg.optim.sched.d_model = cfg.model.optim.sched.d_model
+
+    # Validate model before training
+    trainer.validate(asr_model)
+
     asr_model.maybe_init_from_pretrained_checkpoint(cfg)
 
     # Validate pretrained model
