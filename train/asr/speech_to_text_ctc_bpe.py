@@ -84,13 +84,13 @@ def main(cfg):
     # Create PyTorch Lightning trainer with specified parameters
     trainer = pl.Trainer(**cfg.trainer)
     exp_manager(trainer, cfg.get("exp_manager", None))
-    # asr_model = EncDecCTCModelBPE(cfg=cfg.model, trainer=trainer)
+    asr_model = EncDecCTCModelBPE(cfg=cfg.model, trainer=trainer)
     # asr_model = EncDecCTCModelBPE.from_pretrained(model_name="stt_de_conformer_ctc_large", trainer=trainer)
-    asr_model = EncDecCTCModelBPE.restore_from('/scicore/home/graber0001/schran0000/NeMo/experiments/stt_de_conformer_ctc_large_finetuning/Conformer-CTC-BPE/2023-03-29_15-29-01/checkpoints/Conformer-CTC-BPE.nemo', trainer=trainer)
+    # asr_model = EncDecCTCModelBPE.restore_from('/scicore/home/graber0001/schran0000/NeMo/experiments/stt_de_conformer_ctc_large_finetuning/Conformer-CTC-BPE/2023-03-29_15-29-01/checkpoints/Conformer-CTC-BPE.nemo', trainer=trainer)
     # Update vocab
     # asr_model.change_vocabulary(new_tokenizer_dir=cfg.model.tokenizer.dir, new_tokenizer_type=cfg.model.tokenizer.type)
-    asr_model.setup_training_data(train_data_config=cfg.model.train_ds)
-    asr_model.setup_validation_data(val_data_config=cfg.model.validation_ds)
+    # asr_model.setup_training_data(train_data_config=cfg.model.train_ds)
+    # asr_model.setup_validation_data(val_data_config=cfg.model.validation_ds)
     # asr_model.cfg.sample_rate = cfg.model.sample_rate
     # asr_model.cfg.log_prediction = cfg.model.log_prediction
     # asr_model.cfg.ctc_reduction = cfg.model.ctc_reduction
