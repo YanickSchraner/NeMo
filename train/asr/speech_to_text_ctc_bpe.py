@@ -106,6 +106,9 @@ def main(cfg):
     # asr_model.cfg.optim.sched.d_model = cfg.model.optim.sched.d_model
     asr_model.maybe_init_from_pretrained_checkpoint(cfg)
 
+    # Validate pretrained model
+    trainer.validate(asr_model)
+
     # Fit model to data
     trainer.fit(asr_model)
 
