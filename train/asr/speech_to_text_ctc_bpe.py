@@ -111,6 +111,8 @@ def main(cfg):
     asr_model.encoder.load_part_of_state_dict(asr_model_checkpoint.encoder.state_dict())
     asr_model.decoder.load_part_of_state_dict(asr_model_checkpoint.decoder.state_dict())
 
+    del asr_model_checkpoint
+
     print(asr_model.summarize())
 
     # Validate pretrained model
