@@ -84,9 +84,8 @@ def main(cfg):
     # Create PyTorch Lightning trainer with specified parameters
     trainer = pl.Trainer(**cfg.trainer)
     exp_manager(trainer, cfg.get("exp_manager", None))
-    asr_model = EncDecCTCModelBPE(cfg=cfg.model, trainer=trainer)
-    # asr_model = EncDecCTCModelBPE.from_pretrained(model_name="stt_de_conformer_ctc_large", trainer=trainer)
-    asr_model_checkpoint = EncDecCTCModelBPE.restore_from('/scicore/home/graber0001/schran0000/NeMo/experiments/stt_de_conformer_ctc_large_finetuning/Conformer-CTC-BPE/2023-03-29_15-29-01/checkpoints/Conformer-CTC-BPE.nemo', trainer=trainer)
+    # asr_model = EncDecCTCModelBPE(cfg=cfg.model, trainer=trainer)
+    asr_model = EncDecCTCModelBPE.restore_from('/scicore/home/graber0001/schran0000/NeMo/experiments/stt_de_conformer_ctc_large_finetuning/Conformer-CTC-BPE/2023-03-29_15-29-01/checkpoints/Conformer-CTC-BPE.nemo', trainer=trainer)
     # Update vocab
     # asr_model.change_vocabulary(new_tokenizer_dir=cfg.model.tokenizer.dir, new_tokenizer_type=cfg.model.tokenizer.type)
     asr_model.setup_training_data(train_data_config=cfg.model.train_ds)
@@ -108,13 +107,11 @@ def main(cfg):
     # Validate model before training
     # trainer.validate(asr_model)
 
-    asr_model.encoder.load_part_of_state_dict(asr_model_checkpoint.encoder.state_dict())
-    asr_model.decoder.load_part_of_state_dict(asr_model_checkpoint.decoder.state_dict())
-
-    del asr_model_checkpoint
-
-    print(asr_model.summarize())
-
+    # Print weights of first layer of encoder
+    print(asr_model.encoder.conv_mask.conv.weight)
+    asr_model = EncDecCTCModelBPE.load_from_checkpoint('/scicore/home/graber0001/schran0000/NeMo/experiments/stt_de_conformer_ctc_large_finetuning/Conformer-CTC-BPE/2023-03-29_15-29-01/checkpoints/Conformer-CTC-BPE--val_wer=0.2661-epoch=56.ckpt')
+    # Print weights of first layer of encoder
+    print(asr_model.encoder.conv_mask.conv.weight)
     # Validate pretrained model
     trainer.validate(asr_model)
 
