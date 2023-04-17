@@ -107,7 +107,7 @@ def main(cfg):
     # Validate model before training
     trainer.validate(asr_model)
 
-    asr_model = EncDecCTCModelBPE.load_from_checkpoint('/scicore/home/graber0001/schran0000/NeMo/experiments/stt_de_conformer_ctc_large_finetuning/Conformer-CTC-BPE/2023-03-29_15-29-01/checkpoints/Conformer-CTC-BPE--val_wer=0.2661-epoch=56.ckpt')
+    asr_model = EncDecCTCModelBPE.load_from_checkpoint(checkpoint_path='/scicore/home/graber0001/schran0000/NeMo/experiments/stt_de_conformer_ctc_large_finetuning/Conformer-CTC-BPE/2023-03-29_15-29-01/checkpoints/Conformer-CTC-BPE--val_wer=0.2661-epoch=56.ckpt')
 
     # Validate pretrained model
     trainer.validate(asr_model)
