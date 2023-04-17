@@ -41,7 +41,7 @@ model:
                         [/scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/train_shards/bucket3/tarred_audio_manifest.json],
                         [/scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58/train_shards/bucket4/tarred_audio_manifest.json],]
     sample_rate: 16000
-    batch_size: 32 # you may increase batch_size if your memory allows
+    batch_size: 16 # you may increase batch_size if your memory allows
     shuffle: false
     num_workers: 8
     pin_memory: true
