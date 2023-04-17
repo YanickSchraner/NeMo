@@ -110,6 +110,8 @@ def main(cfg):
 
     # asr_model.maybe_init_from_pretrained_checkpoint(cfg)
 
+    print(asr_model.summarize())
+
     # Validate pretrained model
     trainer.validate(asr_model)
 
