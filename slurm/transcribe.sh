@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=train_conformer
+#SBATCH --job-name=transcribe
 #SBATCH --time=0-06:00:00
 #SBATCH --cpus-per-task=10
 #SBATCH --tasks-per-node=1
