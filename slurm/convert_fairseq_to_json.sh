@@ -17,4 +17,4 @@ ml Python/3.10.4-GCCcore-11.3.0
 
 source venv/bin/activate
 
-python scripts/dataset_processing/fairseq_to_json.py --data_dir '/scicore/home/graber0001/GROUP/stt/swissgerman_wav2vec_nobackup/data/corpus/stt/annotated/combined_annotated_speech/2022-10-21_12-29-58' --splits 'train,test,valid' --manifest '/scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/combined/2022-10-21_12-29-58'
+python scripts/dataset_processing/fairseq_to_json.py --data_dir '/scicore/home/graber0001/GROUP/stt/swissgerman_wav2vec_nobackup/data/corpus/stt/annotated/snf_testset/v1.0/2023-01-09_21-07-27' --splits 'test' --manifest '/scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/snf_testset/2023-01-09_21-07-27'
