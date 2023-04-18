@@ -7,7 +7,7 @@
 #SBATCH --qos=gpu6hours
 #SBATCH --gres=gpu:1
 #SBATCH --partition=a100
-#SBATCH --output=scicore_out/train-conformer-%A_%a.out
+#SBATCH --output=scicore_out/transcribe-%A_%a.out
 
 ml CMake/3.23.1-GCCcore-11.3.0
 ml libsndfile/1.1.0-GCCcore-11.3.0
@@ -24,7 +24,7 @@ export NCCL_DEBUG=INFO
 export PYTHONFAULTHANDLER=1
 
 
-python transcribe_speech.py \
+python examples/asr/transcribe_speech.py \
     model_path='/scicore/home/graber0001/schran0000/NeMo/experiments/stt_de_conformer_ctc_large_finetuning/Conformer-CTC-BPE/2023-03-29_15-29-01/checkpoints/Conformer-CTC-BPE--val_wer=0.2661-epoch=56.ckpt' \
     dataset_manifest="/scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/snf_testset/2023-01-09_21-07-27/test.json" \
     batch_size=32 \
