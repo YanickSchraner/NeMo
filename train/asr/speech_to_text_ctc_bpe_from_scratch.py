@@ -85,6 +85,8 @@ def main(cfg):
     trainer = pl.Trainer(**cfg.trainer)
     exp_manager(trainer, cfg.get("exp_manager", None))
     asr_model = EncDecCTCModelBPE(cfg=cfg.model, trainer=trainer)
+    asr_model.setup_training_data(cfg.model.train_ds)
+    asr_model.setup_validation_data(cfg.model.validation_ds)
 
     # Fit model to data
     trainer.fit(asr_model)
