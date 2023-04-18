@@ -3,6 +3,7 @@
 #SBATCH --time=7-00:00:00
 #SBATCH --cpus-per-task=20
 #SBATCH --tasks-per-node=4
+#SBATCH --nodes=1
 #SBATCH --mem=50G
 #SBATCH --qos=gpu1week
 #SBATCH --gres=gpu:4
