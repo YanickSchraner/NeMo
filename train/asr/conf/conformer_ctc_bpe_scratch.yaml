@@ -198,7 +198,7 @@ trainer:
   strategy: deepspeed_stage_2
   accumulate_grad_batches: 10
   gradient_clip_val: 0.0
-  precision: 16 # Should be set to 16 for O1 and O2 to enable the AMP.
+  precision: bf16 # Should be set to 16 for O1 and O2 to enable the AMP.
   log_every_n_steps: 100  # Interval of logging.
   enable_progress_bar: True
   resume_from_checkpoint: null # The path to a checkpoint file to continue the training, restores the whole state including the epoch, step, LR schedulers, apex, etc.
