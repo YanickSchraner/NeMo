@@ -85,7 +85,9 @@ def main(cfg):
     trainer = pl.Trainer(**cfg.trainer)
     exp_manager(trainer, cfg.get("exp_manager", None))
     # asr_model = EncDecCTCModelBPE(cfg=cfg.model, trainer=trainer)
-    asr_model = EncDecCTCModelBPE.restore_from('/scicore/home/graber0001/schran0000/NeMo/experiments/stt_de_conformer_ctc_large_finetuning/Conformer-CTC-BPE/2023-03-29_15-29-01/checkpoints/Conformer-CTC-BPE.nemo', trainer=trainer)
+    asr_model = EncDecCTCModelBPE.restore_from(
+        '/scicore/home/graber0001/schran0000/NeMo/experiments/stt_de_conformer_ctc_large_finetuning/Conformer-CTC-BPE/2023-03-29_15-29-01/checkpoints/Conformer-CTC-BPE.nemo',
+        trainer=trainer)
     # Update vocab
     # asr_model.change_vocabulary(new_tokenizer_dir=cfg.model.tokenizer.dir, new_tokenizer_type=cfg.model.tokenizer.type)
     asr_model.setup_training_data(train_data_config=cfg.model.train_ds)
@@ -107,13 +109,12 @@ def main(cfg):
     # Validate model before training
     trainer.validate(asr_model)
 
-    asr_model = EncDecCTCModelBPE.load_from_checkpoint(checkpoint_path='/scicore/home/graber0001/schran0000/NeMo/experiments/stt_de_conformer_ctc_large_finetuning/Conformer-CTC-BPE/2023-03-29_15-29-01/checkpoints/Conformer-CTC-BPE--val_wer=0.2661-epoch=56.ckpt')
-
+    model_path = '/scicore/home/graber0001/schran0000/NeMo/experiments/stt_de_conformer_ctc_large_finetuning/Conformer-CTC-BPE/2023-03-29_15-29-01/checkpoints/Conformer-CTC-BPE--val_wer=0.2661-epoch=56.ckpt'
     # Validate pretrained model
-    trainer.validate(asr_model)
+    trainer.validate(asr_model, ckpt_path=model_path)
 
     # Fit model to data
-    trainer.fit(asr_model)
+    trainer.fit(asr_model, ckpt_path=model_path)
 
     if hasattr(cfg.model, 'test_ds') and cfg.model.test_ds.manifest_filepath is not None:
         if asr_model.prepare_test(trainer):
