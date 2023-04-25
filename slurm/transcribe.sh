@@ -24,13 +24,12 @@ export NCCL_DEBUG=INFO
 export PYTHONFAULTHANDLER=1
 
 
-python examples/asr/transcribe_speech.py \
-    --model_path="/scicore/home/graber0001/schran0000/NeMo/experiments/stt_de_conformer_ctc_large_finetuning/Conformer-CTC-BPE/2023-03-29_15-29-01/checkpoints/Conformer-CTC-BPE--val_wer=0.2661-epoch=56.ckpt" \
-    --dataset_manifest="/scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/snf_testset/2023-01-09_21-07-27/test.json" \
-    --batch_size=32 \
-    --compute_timestamps=True \
-    --compute_langs=False \
-    --cuda=0 \
-    --amp=True \
-    --append_pred=False \
-    --audio_type='flac'
+python examples/asr/transcribe_speech.py 'model_path="/scicore/home/graber0001/schran0000/NeMo/experiments/stt_de_conformer_ctc_large_finetuning/Conformer-CTC-BPE/2023-03-29_15-29-01/checkpoints/Conformer-CTC-BPE--val_wer=0.2661-epoch=56.ckpt" \
+    dataset_manifest="/scicore/home/graber0001/GROUP/stt/nemo_nobackup/data/snf_testset/2023-01-09_21-07-27/test.json" \
+    batch_size=32 \
+    compute_timestamps=True \
+    compute_langs=False \
+    cuda=0 \
+    amp=True \
+    append_pred=False \
+    audio_type="flac"'
