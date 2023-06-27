@@ -8,7 +8,7 @@ name: "Conformer-CTC-Char"
 model:
   sample_rate: 16000
   labels:  ['6', '.', 'F', 'Y', 'h', 'W', 'K', 'z', 'N', 'M', 'A', 'ö', 'c', '7', 'D', '1', 'n', 'S', 'Ä', '!', 'B', 'J', 'p', '-', '3', 'i', 'v', 'H', 'y', 'I', '0', '8', 'G', 'ä', ' ', 't', 'R', 's', 'e', '2', 'j', 'V', 'Ü', '4', 'ü', 'Ö', 'Z', 'a', 'w', 'u', 'C', 'Q', ':', '5', ',', 'X', 'm', 'd', 'q', 'g', 'k', 'r', 'b', 'l', 'L', 'O', 'U', '9', 'o', 'E', ';', 'P', '?', 'f', 'T', 'x']
-  log_prediction: false # enables logging sample predictions in the output during training
+  log_prediction: true # enables logging sample predictions in the output during training
   ctc_reduction: 'mean_batch'
   skip_nan_grad: false
 
@@ -82,8 +82,8 @@ model:
     _target_: nemo.collections.asr.modules.ConformerEncoder
     feat_in: ${model.preprocessor.features}
     feat_out: -1 # you may set it if you need different output size other than the default d_model
-    n_layers: 18
-    d_model: 512
+    n_layers: 16
+    d_model: 256
 
     # Sub-sampling params
     subsampling: striding # vggnet, striding, stacking or stacking_norm, dw_striding
@@ -118,9 +118,9 @@ model:
     dropout_att: 0.1 # The dropout for multi-headed attention modules
 
     # set to non-zero to enable stochastic depth
-#    stochastic_depth_drop_prob: 0.0
-#    stochastic_depth_mode: linear  # linear or uniform
-#    stochastic_depth_start_layer: 1
+    stochastic_depth_drop_prob: 0.0
+    stochastic_depth_mode: linear  # linear or uniform
+    stochastic_depth_start_layer: 1
 
   decoder:
     _target_: nemo.collections.asr.modules.ConvASRDecoder
@@ -166,8 +166,8 @@ trainer:
   strategy: ddp
   accumulate_grad_batches: 1
   gradient_clip_val: 0.0
-  precision: 16 # Should be set to 16 for O1 and O2 to enable the AMP.
-  log_every_n_steps: 100  # Interval of logging.
+  precision: 32 # Should be set to 16 for O1 and O2 to enable the AMP.
+  log_every_n_steps: 25  # Interval of logging.
   enable_progress_bar: True
   resume_from_checkpoint: null # The path to a checkpoint file to continue the training, restores the whole state including the epoch, step, LR schedulers, apex, etc.
   num_sanity_val_steps: 0 # number of steps to perform validation steps for sanity check the validation process before starting the training, setting to 0 disables it
